@@ -9,19 +9,20 @@ const styles = theme => ({
     root: {
       flexGrow: 1,
       backgroundColor: theme.palette.background.paper,
-      height:200
+      height:240
     },
     header:{
-        height:140,
+        height:170,
         borderBottom: '1px solid #e8e8e8',
         fontSize:42,
         textAlign: 'center',
-        paddingTop: 30,
+        paddingTop: 60,
     },
     tabsRoot: {
       background:'#81D8D0',
-      color:'#ffffff',
+      color:'#000',
       borderBottom: '1px solid #e8e8e8',
+      fontWeight: theme.typography.fontWeightMedium,
     },
     tabsIndicator: {
       backgroundColor: '#309c91',
@@ -30,7 +31,7 @@ const styles = theme => ({
     tabRoot: {
       textTransform: 'initial',
       fontSize:18,
-      height:60,
+      height:70,
       minWidth: 72,
       fontWeight: theme.typography.fontWeightRegular,
       marginRight: theme.spacing.unit * 4,
@@ -41,11 +42,11 @@ const styles = theme => ({
         opacity: 1,
       },
       '&$tabSelected': {
-        color: '#333',
-        fontWeight: theme.typography.fontWeightMedium,
+        color: '#fff',
+        fontWeight: theme.typography.fontWeightHigh,
       },
       '&:focus': {
-        color: '#333',
+        color: '#fff',
       },
     },
     tabSelected: {},

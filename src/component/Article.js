@@ -32,7 +32,8 @@ const styles =theme =>( {
         margin:"20px auto 20px auto",
         padding:'10px 5%',
         fontSize:'18px',
-        color:'#222'
+        color:'#222',
+        lineHeight: '150%'
     },
     actionBar:{
         margin:"20px auto 10px auto",
@@ -42,7 +43,10 @@ const styles =theme =>( {
        float:'right'
     },
     info:{
-        color:'#aaa'
+        color:'#aaa',
+        fontStyle:'italic',
+        fontSize:14,
+        marginTop:8
     }
   });
 

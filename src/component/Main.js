@@ -8,14 +8,18 @@ import About from './About';
 import SingleArticle from './SingleArticle';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {Articles} from './sample';
+import {Comments} from './sample';
 
 
 class Main extends Component {
-  render() {
 
+  render() {
     const articleWihID = ({match}) => {
         return(
-            <SingleArticle article={Articles.filter((article) => article.id === parseInt(match.params.id,10))[0]} />
+            <SingleArticle 
+            article={Articles.filter((article) => article.id === parseInt(match.params.id,10))[0]}
+            comments={Comments.filter((comments) => comments.articleId === parseInt(match.params.id,10))}
+            />
         );
       };
 
