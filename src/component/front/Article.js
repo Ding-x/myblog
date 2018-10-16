@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import {Link} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
+import Loading from '../LoadingComponent';
 
 
 
@@ -56,9 +57,25 @@ class Article extends Component {
 
   render() {
     const { classes } = this.props;
+    if (this.props.articles.isLoading) {
+        return(
+            <div>
+                     
+                    <Loading />
+            </div>
+        );
+    }
+    else if (this.props.articles.errMess) {
+        return(
+            <div >
+                    <h4>{this.props.articles.errMess}</h4>
+            </div>
+        );
+    }
+    else
     return (
       <div className={classes.root}>
-      {this.props.articles.map((article)=>{
+      {this.props.articles.articles.map((article)=>{
           return(
             <Paper key={article.id} className={classes.frame} >
             <p className={classes.title}>

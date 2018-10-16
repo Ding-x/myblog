@@ -2,17 +2,17 @@ import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-
 const styles = theme => ({
     root: {
       flexGrow: 1,
       backgroundColor: theme.palette.background.paper,
       height:120,
+      borderTop: '1px solid #e8e8e8',
+
     },
-    header:{
+    footer:{
         height:120,
-        borderTop: '1px solid #e8e8e8',
-        fontSize:24,
+        fontSize:16,
         textAlign: 'center',
         paddingTop: 30,
     },
@@ -25,8 +25,8 @@ class Footer extends Component {
         const { classes } = this.props;    
         return (
           <div className={classes.root}>
-              <div className={classes.header}>This is footer</div>
-            
+          <div></div>
+          <div className={classes.footer}>Copyright &copy; Xiao Blog 2018. Powered by <a href="http://xiaop.ca">Xiao Peng</a></div>
           </div>
         );
       }

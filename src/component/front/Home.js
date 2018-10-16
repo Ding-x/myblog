@@ -7,7 +7,7 @@ const styles = theme => ({
       flexGrow: 1,
       backgroundColor: theme.palette.background.paper,
       padding:'3%',
-      minHeight: 'calc(70vh - 50px)'
+      minHeight: 'calc(60vh - 50px)'
     },
   });
 

@@ -5,6 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {Link} from 'react-router-dom';
 
+
 const styles = theme => ({
     root: {
       flexGrow: 1,
@@ -65,18 +66,26 @@ class Header extends Component {
       render() {
         const { classes } = this.props;
         const { value } = this.state;
-    
-        return (
-          <div className={classes.root}>
-              <div className={classes.header}>Ding-X</div>
-              <Tabs value={value} onChange={this.handleChange} classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}>
-                <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Home" to='/Home' component={Link}/>
-                <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Article" to='/Article' component={Link}/>
-                <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Music" to='/Music' component={Link}/>
-                <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="About" to='/About' component={Link}/>
-              </Tabs>
-          </div>
-        );
+        if(this.props.isDashboard<0)
+          return (
+            <div className={classes.root}>
+                <div className={classes.header}>Ding-X</div>
+                <Tabs value={value} onChange={this.handleChange} classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}>
+
+                  <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Home" to='/Home' component={Link}/>
+                  <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Article" to='/Article' component={Link}/>
+                  <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Music" to='/Music' component={Link}/>
+                  <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="About" to='/About' component={Link}/>                  
+                  <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Dashboard" to='/Dashboard/Home' component={Link}/>                  
+  
+                </Tabs>
+             
+            </div>
+          );
+        else
+          return(
+            <div></div>
+          )
       }
   
 

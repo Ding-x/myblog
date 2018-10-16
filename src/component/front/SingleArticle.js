@@ -11,9 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-
-
-
+import Loading from '../LoadingComponent';
 
 
 const styles = theme => ({
@@ -55,7 +53,42 @@ const styles = theme => ({
   
 
 class SingleArticle extends Component {
+
+  constructor(props){
+    super(props);
+    this.state={
+      comment:'',
+      p:props
+    }
+  }
+
+
+  handleChange = (event) => {
+    this.setState({comment: event.target.value});
+ }
+
+  handleSubmit= (event) => {
+    this.props.addComment(this.props.article.id,this.state.comment);
+    event.preventDefault();
+}
+
   render() {
+    if (this.props.isLoading) {
+      return(
+          <div>
+                   
+                  <Loading />
+          </div>
+      );
+  }
+  else if (this.props.errMess) {
+      return(
+          <div >
+                  <h4>{this.props.errMess}</h4>
+          </div>
+      );
+  }
+  else if (this.props.article != null){ 
     const { classes } = this.props;
 
     return (
@@ -78,25 +111,22 @@ class SingleArticle extends Component {
             )
           })}
           </List>
+          <form >
+
           <Grid container spacing={24}>
 
             <Grid className={classes.info} item xs={10}>
-            <TextField
-          multiline
-          id="outlined-simple-start-adornment"
-          className={classNames(classes.margin, classes.textField)}
-          variant="outlined"
-          label="New Comment"
-           />
+            <TextField multiline id="outlined-simple-start-adornment" className={classNames(classes.margin, classes.textField)} 
+            variant="outlined" name="comment" label="New Comment" value={this.state.comment} onChange={this.handleChange}/>
             </Grid>
-
             <Grid item xs={2}>
-            <Button  className={classes.submit} color="secondary" >Submit</Button>
+            <Button  className={classes.submit} color="secondary" onClick={this.handleSubmit}>Submit</Button>
             </Grid>
           </Grid>
-   
+   </form>
       </div>
     );
+        }
   }
 }
 
