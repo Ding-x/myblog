@@ -12,10 +12,9 @@ import DBHome from './dashboard/DBHome';
 import DBArticle from './dashboard/DBArticle';
 import DBSingleArticle from './dashboard/DBSingleArticle';
 
-
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { addComment,fetchArticles } from '../redux/ActionCreators';
+import {deleteArticle, editArticle, postComment,postArticle,fetchArticles, fetchComments} from '../redux/ActionCreators';
 
 
 const mapStateToProps = state => {
@@ -26,9 +25,12 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  
-  addComment: (articleId, comment) => dispatch(addComment(articleId, comment)),
-  fetchArticles: () => { dispatch(fetchArticles())}
+  deleteArticle:(id)=> dispatch(deleteArticle(id)),
+  editArticle: (title,content,id,author)=> dispatch(editArticle(title,content,id,author)),
+  postComment: (articleId, comment) => dispatch(postComment(articleId, comment)),
+  postArticle: (titlle,content) => dispatch(postArticle(titlle,content)),
+  fetchArticles: () => { dispatch(fetchArticles())},
+  fetchComments: () => dispatch(fetchComments()),
 
 });
 
@@ -36,18 +38,14 @@ class Main extends Component {
 
   componentDidMount() {
     this.props.fetchArticles();
+    this.props.fetchComments();
 
   }
-
-  selfDefine(){
-    return 0;
-  }
-  
 
 
   render() {
 
-
+    //console.log(this.props);
     const articleWihID = ({match}) => {
 
         return(
@@ -55,8 +53,10 @@ class Main extends Component {
             article={this.props.articles.articles.filter((article) => article.id === parseInt(match.params.id,10))[0]}
             isLoading={this.props.articles.isLoading}
             errMess={this.props.articles.errMess}
-            comments={this.props.comments.filter((comments) => comments.articleId === parseInt(match.params.id,10))}
-            addComment={this.props.addComment}
+            comments={this.props.comments.comments.filter((comments) => comments.articleId === parseInt(match.params.id,10))}
+            commentErrMess={this.props.comments.errMess}
+            postComment={this.props.postComment}
+            
             />
         );
       };
@@ -68,6 +68,10 @@ class Main extends Component {
             article={this.props.articles.articles.filter((article) => article.id === parseInt(match.params.id,10))[0]}
             isLoading={this.props.articles.isLoading}
             errMess={this.props.articles.errMess}
+            postArticle={this.props.postArticle}
+            editArticle={this.props.editArticle}
+            deleteArticle={this.props.deleteArticle}
+            isNew={false}
             />
         );
       };
@@ -84,10 +88,15 @@ class Main extends Component {
                 <Route path='/Article/:id' component={articleWihID} />
                 <Route exact path='/Music' component={Music} />
                 <Route exact path='/About' component={About} />
-
                 <Route exact path='/Dashboard/Home' component={DBHome} />
-                <Route exact path='/Dashboard/Article' component={()=><DBArticle articles={this.props.articles}/>} />
+                <Route exact path='/Dashboard/Article' component={()=><DBArticle articles={this.props.articles} />} />
                 <Route path='/Dashboard/Article/:id' component={editArticleWihID} />
+                <Route exact path='/Dashboard/NewArticle' component={()=><DBSingleArticle article={null}
+            isLoading={null}
+            errMess={null}
+            postArticle={this.props.postArticle}
+            editArticle={this.props.editArticle}
+            isNew={true} />} />
 
                 <Redirect to="/home" />
             </Switch>

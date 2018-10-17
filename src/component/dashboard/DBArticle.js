@@ -10,7 +10,8 @@ import EditOutlined from '@material-ui/icons/EditOutlined';
 import {Link} from 'react-router-dom';
 import Loading from '../LoadingComponent';
 import Paper from '@material-ui/core/Paper';
-
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 
 const styles = theme => ({
@@ -23,8 +24,7 @@ const styles = theme => ({
       paddingLeft:theme.spacing.unit * 4,
       paddingBottom: theme.spacing.unit * 4,
       paddingRight:theme.spacing.unit * 4,
-      height: '100vh',
-      overflow:'auto'
+      height: '90vh',
     },
     item:{
         marginTop: theme.spacing.unit * 3,
@@ -40,15 +40,32 @@ const styles = theme => ({
 
     },
     frame:{
-        height: '85vh',
-        margin:0
-  
+        height: '65vh',
+        margin:0,
+        overflow:'auto'
+
+      },
+      btn:{
+        margin:'30px 35%',
+        border:'1px solid #ddd',
+        height:'50px',
+        width:'30%',
+        padding:'0'
+      },
+      btnFrame:{
+        padding:'0 !important',
       },
 
   });
 
+
+
+  
 class DBArticle extends Component {
+
+    
   render() {
+      //console.log(this.props)
     const { classes } = this.props;
     if (this.props.articles.isLoading) {
         return(
@@ -70,12 +87,18 @@ class DBArticle extends Component {
         <div className={classes.root}>
           <DBNav/>
           <main className={classes.content}>
+          <Grid container md={12} spacing={24}>
+      
+        <Grid className={classes.btnFrame} item xs={4}></Grid>
+        <Grid className={classes.btnFrame} item xs={4}></Grid>
+        <Grid className={classes.btnFrame} item xs={4}><Button  className={classes.btn} color="secondary"  to={`/Dashboard/NewArticle`} component={Link}>Add</Button></Grid>
+      </Grid>
           <Paper className={classes.frame} elevation={1}>
           <List component="nav">
           {this.props.articles.articles.map((article)=>{
               return(
                 <ListItem key={article.id} className={classes.item} button to={`/Dashboard/Article/${article.id}`} component={Link}>
-                   <ListItemText >Title: {article.title}</ListItemText>
+                   <ListItemText >Article: {article.title}</ListItemText>
                     <ListItemIcon>
                         <EditOutlined />
                     </ListItemIcon>

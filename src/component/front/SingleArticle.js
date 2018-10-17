@@ -68,7 +68,10 @@ class SingleArticle extends Component {
  }
 
   handleSubmit= (event) => {
-    this.props.addComment(this.props.article.id,this.state.comment);
+    if(this.state.comment.length>0)
+        this.props.postComment(this.props.article.id,this.state.comment);
+    else
+        alert('If you have nothing to say, why do you have to comment?')
     event.preventDefault();
 }
 
@@ -120,7 +123,7 @@ class SingleArticle extends Component {
             variant="outlined" name="comment" label="New Comment" value={this.state.comment} onChange={this.handleChange}/>
             </Grid>
             <Grid item xs={2}>
-            <Button  className={classes.submit} color="secondary" onClick={this.handleSubmit}>Submit</Button>
+            <Button  className={classes.submit} color="secondary" onClick={this.handleSubmit} to=''>Submit</Button>
             </Grid>
           </Grid>
    </form>
