@@ -16,7 +16,7 @@ export const fetchArticles = () => (dispatch) => {
 
     setTimeout(() => {
         dispatch(addArticles(ARTICLES));
-    }, 1000);
+    }, 500);
 };
 
 export const articlesLoading = () => ({

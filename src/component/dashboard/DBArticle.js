@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import EditOutlined from '@material-ui/icons/EditOutlined';
 import {Link} from 'react-router-dom';
 import Loading from '../LoadingComponent';
+import Paper from '@material-ui/core/Paper';
 
 
 
@@ -27,15 +28,22 @@ const styles = theme => ({
     },
     item:{
         marginTop: theme.spacing.unit * 3,
-        marginLeft:theme.spacing.unit * 3,
+        marginLeft:theme.spacing.unit * 5,
         marginBottom: theme.spacing.unit * 4,
         marginRight:theme.spacing.unit * 4,
         padding:theme.spacing.unit * 3,
         height: '8vh',
         background:'#fff',
         width:'95%',
-        boxShadow:'0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1) '
-    }
+        boxShadow:'0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.1) ',
+        border:'1px solid #ddd',
+
+    },
+    frame:{
+        height: '85vh',
+        margin:0
+  
+      },
 
   });
 
@@ -62,6 +70,7 @@ class DBArticle extends Component {
         <div className={classes.root}>
           <DBNav/>
           <main className={classes.content}>
+          <Paper className={classes.frame} elevation={1}>
           <List component="nav">
           {this.props.articles.articles.map((article)=>{
               return(
@@ -74,7 +83,7 @@ class DBArticle extends Component {
               )
           })}
       </List>
-
+      </Paper>
           </main>
         </div>
     );
