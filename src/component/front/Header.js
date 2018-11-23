@@ -4,6 +4,23 @@ import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {Link} from 'react-router-dom';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+
+
+import TextField from '@material-ui/core/TextField';
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
 
 
 const styles = theme => ({
@@ -11,6 +28,13 @@ const styles = theme => ({
       flexGrow: 1,
       backgroundColor: theme.palette.background.paper,
       height:240
+    },
+    paper: {
+      position: 'absolute',
+      width: theme.spacing.unit * 50,
+      backgroundColor: theme.palette.background.paper,
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing.unit * 4,
     },
     header:{
         height:170,
@@ -50,22 +74,65 @@ const styles = theme => ({
         color: '#fff',
       },
     },
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    textField: {
+      marginLeft: theme.spacing.unit,
+      marginRight: theme.spacing.unit,
+      width: 200,
+    },
+    button: {
+      margin: theme.spacing.unit,
+    },
     tabSelected: {},
   });
 
 class Header extends Component {
-
-    state = {
-        value: 0,
-      };
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 0,
+      open: false,
+      username:'',
+      password:''
+    };
+  
+    this.handleLogin = this.handleLogin.bind(this);
+    //this.handleLogout = this.handleLogout.bind(this);
+}
     
       handleChange = (event, value) => {
         this.setState({ value });
       };
+      handleOpen = () => {
+        this.setState({ open: true });
+      };
+    
+      handleClose = () => {
+        this.setState({ open: false });
+      };
+
+      handleChangeInput = name => event => {
+        this.setState({
+          [name]: event.target.value,
+        });
+      };
+
+      handleLogin(event) {
+        this.handleClose();
+        console.log(this.state.username+this.state.password)
+
+        this.props.loginUser({username: this.state.username, password: this.state.password});
+        event.preventDefault();
+
+    }
     
       render() {
         const { classes } = this.props;
         const { value } = this.state;
+        console.log(this.props)
         if(this.props.isDashboard<0)
           return (
             <div className={classes.root}>
@@ -76,9 +143,40 @@ class Header extends Component {
                   <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Article" to='/Article' component={Link}/>
                   <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Music" to='/Music' component={Link}/>
                   <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="About" to='/About' component={Link}/>                  
-                  <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Dashboard" to='/Dashboard/Home' component={Link}/>                  
+                  <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Dashboard" to='/Dashboard/Home' component={Link}/>  
+                  <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Login" onClick={this.handleOpen}/>                                 
   
                 </Tabs>
+            
+                <Modal
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  open={this.state.open}
+                  onClose={this.handleClose}
+                >
+                  <div style={getModalStyle()} className={classes.paper}>
+                    <form className={classes.container} noValidate autoComplete="off" >
+                      <TextField
+                        id="standard-name"
+                        label="Name"
+                        className={classes.textField}
+                        value={this.state.username}
+                        onChange={this.handleChangeInput('username')}
+                        margin="normal"
+                      />
+                      <TextField
+                        onChange={this.handleChangeInput('password')}
+                        id="standard-password-input"
+                        label="Password"
+                        className={classes.textField}
+                        type="password"
+                        autoComplete="current-password"
+                        margin="normal"
+                      />
+                      <Button variant="outlined" color="primary" className={classes.button} onClick={this.handleLogin}>Submit</Button>
+                    </form>
+                  </div>
+                </Modal>
              
             </div>
           );

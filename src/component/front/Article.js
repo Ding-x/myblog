@@ -77,7 +77,7 @@ class Article extends Component {
       <div className={classes.root}>
       {this.props.articles.articles.map((article)=>{
           return(
-            <Paper key={article.id} className={classes.frame} >
+            <Paper key={article._id} className={classes.frame} >
             <p className={classes.title}>
             {article.title}
             </p>
@@ -94,7 +94,7 @@ class Article extends Component {
                     </Grid>
 
                     <Grid item xs={2}>
-                    <Button className={classes.moreBtn} size="small" color="secondary" to={`/Article/${article.id}`} component={Link}>
+                    <Button className={classes.moreBtn} size="small" color="secondary" to={`/Article/${article._id}`} component={Link}>
                     More...
                 </Button>
                     </Grid>

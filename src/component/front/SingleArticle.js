@@ -90,7 +90,6 @@ class SingleArticle extends Component {
   }
   else if (this.props.article != null){ 
     const { classes } = this.props;
-
     return (
       <div className={classes.root} >
           <p className={classes.title}> {this.props.article.title}</p>
@@ -101,12 +100,13 @@ class SingleArticle extends Component {
           <List>
 
           {this.props.comments.map((comment)=>{
+            var info="via "+comment.author.username+" in "+comment.updatedAt;
             return(
-              <ListItem  key={comment.id}>
+              <ListItem  key={comment._id}>
                 <Avatar>
                   <ChatBubble />
                 </Avatar>
-                <ListItemText key={comment.id} primary={comment.comment} secondary={comment.date} />
+                <ListItemText key={comment._id} primary={comment.comment} secondary={info} />
               </ListItem>
             )
           })}

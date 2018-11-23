@@ -12,23 +12,30 @@ import DBHome from './dashboard/DBHome';
 import DBArticle from './dashboard/DBArticle';
 import DBSingleArticle from './dashboard/DBSingleArticle';
 
-
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { addComment,fetchArticles } from '../redux/ActionCreators';
+import { postComment, fetchArticles, fetchComments,loginUser, logoutUser } from '../redux/ActionCreators';
+
 
 
 const mapStateToProps = state => {
+  console.log(state)
   return {
     articles: state.articles,
     comments: state.comments,
+    auth:state.auth
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   
-  addComment: (articleId, comment) => dispatch(addComment(articleId, comment)),
-  fetchArticles: () => { dispatch(fetchArticles())}
+  fetchArticles: () => { dispatch(fetchArticles())},
+  
+  postComment: (articleId, comment) => dispatch(postComment(articleId, comment)),
+  fetchComments: () => {dispatch(fetchComments())},
+
+  loginUser: (creds) => dispatch(loginUser(creds)),
+  logoutUser: () => dispatch(logoutUser()),
 
 });
 
@@ -36,27 +43,19 @@ class Main extends Component {
 
   componentDidMount() {
     this.props.fetchArticles();
+    this.props.fetchComments();
 
   }
-
-  selfDefine(){
-    return 0;
-  }
-  
-
 
   render() {
-
-
     const articleWihID = ({match}) => {
-
         return(
             <SingleArticle 
-            article={this.props.articles.articles.filter((article) => article.id === parseInt(match.params.id,10))[0]}
+            article={this.props.articles.articles.filter((article) => article._id === match.params.id,10)[0]}
             isLoading={this.props.articles.isLoading}
             errMess={this.props.articles.errMess}
-            comments={this.props.comments.filter((comments) => comments.articleId === parseInt(match.params.id,10))}
-            addComment={this.props.addComment}
+            comments={this.props.comments.comments.filter((comments) => comments.article._id === match.params.id,10)}
+            postComment={this.props.postComment}
             />
         );
       };
@@ -65,7 +64,7 @@ class Main extends Component {
 
         return(
             <DBSingleArticle 
-            article={this.props.articles.articles.filter((article) => article.id === parseInt(match.params.id,10))[0]}
+            article={this.props.articles.articles.filter((article) => article._id === parseInt(match.params.id,10))[0]}
             isLoading={this.props.articles.isLoading}
             errMess={this.props.articles.errMess}
             />
@@ -75,9 +74,11 @@ class Main extends Component {
       var str=""+this.props.location.pathname;
       var isDashboard=str.search("Dashboard");
 
-    return (
+      return (
       <div >
-        <Header isDashboard={isDashboard}/>
+        <Header isDashboard={isDashboard} auth={this.props.auth} 
+          loginUser={this.props.loginUser} 
+          logoutUser={this.props.logoutUser} />
             <Switch>
                 <Route path='/Home' component={Home} />
                 <Route exact path='/Article' component={()=><Article articles={this.props.articles}/> }/>

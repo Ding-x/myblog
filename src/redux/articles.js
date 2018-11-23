@@ -1,7 +1,8 @@
 import * as ActionTypes from './ActionTypes';
 
 
-export const Articles = (state = { isLoading: true,
+export const Articles = (state = { 
+    isLoading: true,
     errMess: null,
     articles:[]}, action) => {
     switch(action.type){
@@ -12,7 +13,7 @@ export const Articles = (state = { isLoading: true,
             return {...state, isLoading: true, errMess: null, articles: []}
 
         case ActionTypes.ARTICLES_FAILED:
-            return {...state, isLoading: false, errMess: action.payload};
+            return {...state, isLoading: false, errMess: action.payload, dishes: []};
         default:
             return state;
     }

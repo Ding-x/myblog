@@ -5,7 +5,7 @@ class Music extends Component {
   render() {
     return (
       <div >
-          Music
+          Under developing
       </div>
     );
   }
