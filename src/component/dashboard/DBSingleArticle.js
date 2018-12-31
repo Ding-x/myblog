@@ -7,10 +7,14 @@ import Loading from '../LoadingComponent';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import 'braft-editor/dist/index.css'
 import BraftEditor from 'braft-editor'
 
+import { Link } from 'react-router-dom';
 
 
 const styles = theme => ({
@@ -23,12 +27,13 @@ const styles = theme => ({
       paddingLeft:theme.spacing.unit * 1,
       paddingBottom: theme.spacing.unit * 4,
       paddingRight:theme.spacing.unit * 1,
-      height: '100vh',
+      height: '130vh',
       width:'10%'
     },
     frame:{
-      height: '85vh',
-      margin:0
+      height: '105vh',
+      margin:0,
+      overFlow:'scroll'
 
     },
     title:{
@@ -45,7 +50,7 @@ const styles = theme => ({
       border:'1px solid #ddd'
     },
     btn:{
-      margin:'20px 35%',
+      margin:'10% 35%',
       border:'1px solid #ddd',
       height:'50px',
       width:'30%',
@@ -60,8 +65,11 @@ const styles = theme => ({
 class DBSingleArticle extends Component {
 
   state = {
-    editorState: BraftEditor.createEditorState(''), 
-    title:''
+    editorState: BraftEditor.createEditorState(null), 
+    title:'',
+    submitOpen: false,
+    deleteOpen: false,
+
   }
 
   componentDidMount () {
@@ -85,9 +93,38 @@ class DBSingleArticle extends Component {
       title:this.props.article.title
     })
   }
+
   handleTitleChange = (event) => {
     this.setState({title: event.target.value});
+  }
+
+ handleSubmitClickOpen = () => {
+    this.setState({ submitOpen: true });
+  };
+
+  handleDeleteClickOpen = () => {
+    this.setState({ deleteOpen: true });
+  };
+
+  handleSubmitClose = () => {
+    this.setState({ submitOpen: false });
+  };
+
+  handleDeleteClose = () => {
+    this.setState({ deleteOpen: false });
+  };
+
+ handleDelete = (event) =>{
+
+  this.props.deleteArticle(this.props.article._id);
+  this.props.deleteCommentsOfOneArticle(this.props.article._id);
+  
  }
+
+ handleSubmit = (event) =>{
+  this.props.editArticle(this.state.title,this.state.editorState.toHTML(),this.props.article._id);
+}
+
 
   render() {
     const { classes } = this.props;
@@ -123,12 +160,46 @@ class DBSingleArticle extends Component {
             onChange={this.handleChange}
           />
       </div>
-      <Grid container md={12} spacing={24}>
+      <Grid container spacing={24}>
 
-        <Grid className={classes.btnFrame} item xs={4}><Button  className={classes.btn} color="primary" >Cancel</Button></Grid>
-        <Grid className={classes.btnFrame} item xs={4}><Button  className={classes.btn} color="#aaa" >Delete</Button></Grid>
-        <Grid className={classes.btnFrame} item xs={4}><Button  className={classes.btn} color="secondary" >Submit</Button></Grid>
+        <Grid className={classes.btnFrame} item xs={4}><Button  className={classes.btn} color="primary" to='/Dashboard/Article' component={Link}>Cancel</Button></Grid>
+        <Grid className={classes.btnFrame} item xs={4}><Button  className={classes.btn} color="primary" onClick={this.handleDeleteClickOpen}>Delete</Button></Grid>
+        <Grid className={classes.btnFrame} item xs={4}><Button  className={classes.btn} color="secondary"  onClick={this.handleSubmitClickOpen}>Submit</Button></Grid>
       </Grid>
+
+      <Dialog
+          open={this.state.submitOpen}
+          onClose={this.handleSubmitClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Are you sure to update this article?"}</DialogTitle>
+          <DialogActions>
+            <Button onClick={this.handleSubmitClose} color="primary">
+              No
+            </Button>
+            <Button onClick={this.handleSubmit} to='/Dashboard/Article' component={Link} color="primary" autoFocus >
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          open={this.state.deleteOpen}
+          onClose={this.handleDeleteClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Are you sure to delete this article?"}</DialogTitle>
+          <DialogActions>
+            <Button onClick={this.handleDeleteClose} color="primary">
+              No
+            </Button>
+            <Button onClick={this.handleDelete} to='/Dashboard/Article' component={Link} color="primary" autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
               </Paper>
           </main>
         </div>

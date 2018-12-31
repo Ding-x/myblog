@@ -3,12 +3,10 @@ import { baseUrl } from '../shared/baseUrl';
 
 
 
-export const addComment = (articleId, comment) => ({
+export const addComment = (comment) => ({
     type: ActionTypes.ADD_COMMENT,
-    payload: {
-        articleId: articleId,
-        comment: comment
-    }
+    payload:  comment
+    
 });
 
 export const postComment = (articleId, comment) => (dispatch) => {
@@ -17,7 +15,6 @@ export const postComment = (articleId, comment) => (dispatch) => {
         article: articleId,
         comment: comment
     }
-    console.log('Comment ', newComment);
 
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
@@ -82,10 +79,43 @@ export const addComments = (comments) => ({
 });
 
 
+export const deleteCommentsOfOneArticle = (id) => (dispatch) => {
+
+   
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'comments/articles/' + id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .catch(error => { console.log('Delete comments ', error.message);
+        alert('Your comments could not be deleted\nError: '+ error.message); })
+} 
+
+//---------------------------------------------------------------------------------------------------------------
 export const fetchArticles = () => (dispatch) => {
     dispatch(articlesLoading(true));
 
-    return fetch(baseUrl + 'articles')
+    return fetch(baseUrl +'articles')
         .then(response => {
             if (response.ok) {
                 return response;
@@ -119,6 +149,128 @@ export const addArticles = (articles) => ({
     payload: articles
 });
 
+export const addArticle = (article) => ({
+    type: ActionTypes.ADD_ARTICLE,
+    payload:  article
+    
+});
+
+export const deleteAnArticle = (article) => ({
+    type: ActionTypes.DELETE_ARTICLE,
+    payload:  article
+    
+});
+
+export const postArticle = (title, content) => (dispatch) => {
+
+    const newArticle = {
+        title: title,
+        content: content,
+    }
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'articles', {
+        method: 'POST',
+        body: JSON.stringify(newArticle),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(response => dispatch(addArticle(response)))
+    .catch(error => { console.log('Post article ', error.message);
+        alert('Your article could not be posted\nError: '+ error.message); })
+} 
+
+
+export const editArticle = (title, content,id) => (dispatch) => {
+
+    const newArticle = {
+        title: title,
+        content: content,
+    }
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'articles/' + id, {
+        method: 'PUT',
+        body: JSON.stringify(newArticle),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .catch(error => { console.log('Post article ', error.message);
+        alert('Your article could not be posted\nError: '+ error.message); })
+} 
+
+export const deleteArticle = (id) => (dispatch) => {
+
+   
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'articles/' + id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(response => dispatch(deleteAnArticle(id)))
+    .catch(error => { console.log('Post article ', error.message);
+        alert('Your article could not be posted\nError: '+ error.message); })
+} 
+
+//---------------------------------------------------------------------------------------------------------------
 
 export const requestLogin = (creds) => {
     return {
@@ -130,7 +282,8 @@ export const requestLogin = (creds) => {
 export const receiveLogin = (response) => {
     return {
         type: ActionTypes.LOGIN_SUCCESS,
-        token: response.token
+        token: response.token,
+        admin: response.admin
     }
 }
   
@@ -166,6 +319,7 @@ export const loginUser = (creds) => (dispatch) => {
         })
     .then(response => response.json())
     .then(response => {
+
         if (response.success) {
             // If login was successful, set the token in local storage
             localStorage.setItem('token', response.token);
@@ -176,6 +330,7 @@ export const loginUser = (creds) => (dispatch) => {
         else {
             var error = new Error('Error ' + response.status);
             error.response = response;
+
             throw error;
         }
     })
@@ -201,3 +356,64 @@ export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('creds');
     dispatch(receiveLogout())
 }
+
+
+
+//---------------------------------------------------------------------------------------------------------------
+
+  
+export const receiveSignup = (response) => {
+    return {
+        type: ActionTypes.SIGNUP_SUCCESS,
+        token: response.token
+    }
+}
+  
+export const signupError = (message) => {
+    return {
+        type: ActionTypes.SIGNUP_FAILURE,
+        message
+    }
+}
+
+export const signupUser = (creds) => (dispatch) => {
+    // We dispatch requestLogin to kickoff the call to the API
+
+    return fetch(baseUrl + 'users/signup', {
+        method: 'POST',
+        headers: { 
+            'Content-Type':'application/json' 
+        },
+        body: JSON.stringify(creds)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        } else {
+
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+
+            throw error;
+        }
+        },
+        error => {
+            throw error;
+        })
+    .then(response => response.json())
+    .then(response => {
+
+        if (response.success) {
+            // Dispatch the success action
+            dispatch(receiveSignup(response));
+        }
+        else {
+            var error = new Error('Error ' + response.status);
+            error.response = response;
+            throw error;
+        }
+    })
+    .catch(error => dispatch(signupError(error.message)))
+};
+
+

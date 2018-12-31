@@ -10,6 +10,7 @@ import EditOutlined from '@material-ui/icons/EditOutlined';
 import {Link} from 'react-router-dom';
 import Loading from '../LoadingComponent';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 
 
@@ -28,29 +29,34 @@ const styles = theme => ({
     },
     item:{
         marginTop: theme.spacing.unit * 3,
-        marginLeft:theme.spacing.unit * 5,
+        marginLeft:'70px',
         marginBottom: theme.spacing.unit * 4,
-        marginRight:theme.spacing.unit * 4,
+        marginRight:theme.spacing.unit * 8,
         padding:theme.spacing.unit * 3,
         height: '8vh',
         background:'#fff',
-        width:'95%',
-        boxShadow:'0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.1) ',
+        width:'90%',
+        boxShadow:'0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.05) ',
         border:'1px solid #ddd',
 
     },
     frame:{
         height: '85vh',
-        margin:0
+        margin:0,
   
       },
+      newArticleBtn:{
+          marginLeft:'70px',
+          marginTop:'20px'
+      }
 
   });
 
 class DBArticle extends Component {
+    
   render() {
     const { classes } = this.props;
-    if (this.props.articles.isLoading) {
+    if (this.props.isLoading) {
         return(
             <div>
                      
@@ -58,10 +64,10 @@ class DBArticle extends Component {
             </div>
         );
     }
-    else if (this.props.articles.errMess) {
+    else if (this.props.errMess) {
         return(
             <div >
-                    <h4>{this.props.articles.errMess}</h4>
+                    <h4>{this.props.errMess}</h4>
             </div>
         );
     }
@@ -71,10 +77,11 @@ class DBArticle extends Component {
           <DBNav/>
           <main className={classes.content}>
           <Paper className={classes.frame} elevation={1}>
+          <Button  className={classes.newArticleBtn}  variant="outlined" color="primary" to={`/Dashboard/NewArticle`} component={Link}>New</Button>
           <List component="nav">
-          {this.props.articles.articles.map((article)=>{
+          {this.props.article.map((article)=>{
               return(
-                <ListItem key={article.id} className={classes.item} button to={`/Dashboard/Article/${article.id}`} component={Link}>
+                <ListItem key={article._id} className={classes.item} button to={`/Dashboard/Article/${article._id}`} component={Link}>
                    <ListItemText >Title: {article.title}</ListItemText>
                     <ListItemIcon>
                         <EditOutlined />

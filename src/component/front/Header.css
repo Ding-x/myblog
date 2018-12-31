@@ -1,0 +1,43 @@
+
+.nav-item{
+    color: #fff;
+    font-weight: 400;
+    margin-left: 2%;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.nav-item:active{
+    color: rgb(156, 240, 231);
+}
+
+
+.nav-right{
+    padding-top: 23px;
+    padding-bottom: 20px;
+    height: 80px;
+    background: #81D8D0;
+    width: 20%;
+    float: right;
+    
+}
+
+.nav-left{
+    padding-top: 15px;
+    padding-bottom: 20px;
+    height: 80px;
+    background: #81D8D0;
+    width: 80%;
+    float: left;
+    
+}
+
+.login{
+    float: right;
+    margin-right: 10%;
+}
+
+.logout{
+    float: right;
+    margin-right: 10%;
+}

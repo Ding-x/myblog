@@ -1,0 +1,48 @@
+
+.about-root{
+    background: #fff;
+}
+
+.self-icon{
+    font-size:3rem;
+    margin-top: 5rem;
+    margin-right: 3rem;
+    color:#888
+}
+
+.self-icon:hover{
+    color:rgb(99, 175, 168)
+
+}
+.self-image{
+    width: 300px;
+}
+
+.mail-icon{
+    font-size:1rem;
+    margin-top: 1rem;
+    margin-right:1rem;
+    color:#888
+}
+
+.about-header{
+    background:#fafafa;
+    height:450px;
+    padding:6% 8%;
+    margin-bottom: 100px;
+
+}
+.about-headerTitle{
+    font-Size:64px ;
+    color:#555
+}
+
+.about-subTitle{
+    color:#777 
+}
+
+
+.about-body{
+    padding-bottom: 100px;
+    height: 500px;
+}

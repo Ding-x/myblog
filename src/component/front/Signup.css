@@ -1,0 +1,35 @@
+.signup-root{
+    height: 1000px;
+    background:white;
+}
+
+
+.signup-header{
+    background:#fafafa;
+    height:450px;
+    padding:6% 8%;
+    margin-bottom: 100px;
+
+}
+.signup-headerTitle{
+    font-Size:64px ;
+    color:#555
+}
+
+.signup-subTitle{
+    color:#777 
+}
+
+
+.signup-body{
+    padding-bottom: 100px;
+    height: 500px;
+}
+
+.signup-container{
+    width: 500px;
+}
+
+.signup-alert{
+    color: red
+}

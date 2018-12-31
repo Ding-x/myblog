@@ -1,0 +1,35 @@
+.login-root{
+    height: 800px;
+    background:white;
+}
+
+
+.login-header{
+    background:#fafafa;
+    height:450px;
+    padding:6% 8%;
+    margin-bottom: 100px;
+
+}
+.login-headerTitle{
+    font-Size:64px ;
+    color:#555
+}
+
+.login-subTitle{
+    color:#777 
+}
+
+
+.login-body{
+    padding-bottom: 100px;
+    height: 500px;
+}
+
+.login-container{
+    width: 500px;
+}
+
+.login-alert{
+    color: red
+}

@@ -1,29 +1,23 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import "./Home.css";
+import { baseUrl } from '../../shared/baseUrl';
+import Image from 'react-bootstrap/lib/Image'
 
-const styles = theme => ({
-    root: {
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.paper,
-      padding:'3%',
-      minHeight: 'calc(60vh - 50px)'
-    },
-  });
 
 class Home extends Component {
   render() {
-    const { classes } = this.props;
+
+    const link=baseUrl+"/images/home.jpg"
     return (
-      <div className={classes.root} >
-          Home
+      <div  className="home-root">
+        <div  className="home-box">
+         <Image src={link}  />
+        </div>
       </div>
     );
   }
 }
 
-Home.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
+
   
-  export default withStyles(styles)(Home);
+  export default Home;
