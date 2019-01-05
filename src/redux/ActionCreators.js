@@ -161,6 +161,13 @@ export const deleteAnArticle = (article) => ({
     
 });
 
+export const editAnArticle = (article) => ({
+    type: ActionTypes.EDIT_ARTICLE,
+    payload:  article
+    
+});
+
+
 export const postArticle = (title, content) => (dispatch) => {
 
     const newArticle = {
@@ -205,6 +212,7 @@ export const editArticle = (title, content,id) => (dispatch) => {
     const newArticle = {
         title: title,
         content: content,
+        id:id
     }
 
     const bearer = 'Bearer ' + localStorage.getItem('token');
@@ -233,6 +241,7 @@ export const editArticle = (title, content,id) => (dispatch) => {
         throw errmess;
     })
     .then(response => response.json())
+    .then(response => dispatch(editAnArticle(newArticle)))
     .catch(error => { console.log('Post article ', error.message);
         alert('Your article could not be posted\nError: '+ error.message); })
 } 
@@ -280,6 +289,7 @@ export const requestLogin = (creds) => {
 }
   
 export const receiveLogin = (response) => {
+
     return {
         type: ActionTypes.LOGIN_SUCCESS,
         token: response.token,
@@ -322,10 +332,17 @@ export const loginUser = (creds) => (dispatch) => {
 
         if (response.success) {
             // If login was successful, set the token in local storage
+
+            
+            localStorage.setItem('admin', response.admin);
             localStorage.setItem('token', response.token);
             localStorage.setItem('creds', JSON.stringify(creds));
             // Dispatch the success action
             dispatch(receiveLogin(response));
+
+            if(response.admin){           
+                dispatch(fetchUsers())
+            }
         }
         else {
             var error = new Error('Error ' + response.status);
@@ -354,7 +371,10 @@ export const logoutUser = () => (dispatch) => {
     dispatch(requestLogout())
     localStorage.removeItem('token');
     localStorage.removeItem('creds');
+    localStorage.removeItem('admin');
+    localStorage.removeItem('users');
     dispatch(receiveLogout())
+    dispatch(clearUsers())
 }
 
 
@@ -417,3 +437,210 @@ export const signupUser = (creds) => (dispatch) => {
 };
 
 
+
+
+//---------------------------------------------------------------------------------------------------------------
+export const fetchUsers = () => (dispatch) => {
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl +'users',{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        },
+        credentials: 'same-origin'
+    })
+        .then(response => {
+            if (response.ok) {
+                return response;
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        },
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response=>{
+            localStorage.setItem('users', JSON.stringify(response));
+            dispatch(addUsers(response))
+
+        })
+        .catch(error => dispatch(usersFailed(error.message)));
+}
+
+
+export const addUsers = (users) => ({
+    type: ActionTypes.ADD_USERS,
+    payload: users
+});
+
+export const usersFailed = (errmess) => ({
+    type: ActionTypes.USERS_FAILED,
+    payload: errmess
+});
+
+export const clearUsers = () => ({
+    type: ActionTypes.CLEAR_USERS,
+});
+
+export const deleteUser = (id) => (dispatch) => {
+
+   
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'users/' + id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(response => dispatch(deleteAnUser(id)))
+    .catch(error => { console.log('Delete user ', error.message);
+        alert('Your user could not be deleted\nError: '+ error.message); })
+} 
+
+export const deleteAnUser = (id) => ({
+    type: ActionTypes.DELETE_USER,
+    payload:  id
+    
+});
+
+
+//-----------------------------------------------------------------------------------------------
+
+
+export const addMusic = (music) => ({
+    type: ActionTypes.ADD_MUSIC,
+    payload:  music
+    
+});
+
+export const postMusic = (music) => (dispatch) => {
+
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    
+    return fetch(baseUrl + 'musics', {
+        method: 'POST',
+        body: JSON.stringify(music),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        console.log(errmess)
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(response => dispatch(addMusic(response)))
+    .catch(error => { console.log('Post music ', error.message);
+        alert('Your music could not be posted\nError: '+ error.message); })
+}
+
+
+export const fetchMusics = () => (dispatch) => {
+    return fetch(baseUrl + 'musics')
+        .then(response => {
+            if (response.ok) {
+                return response;
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        },
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(musics => dispatch(addMusics(musics)))
+        .catch(error => dispatch(musicsFailed(error.message)));
+}
+
+export const musicsFailed = (errmess) => ({
+    type: ActionTypes.MUSICS_FAILED,
+    payload: errmess
+});
+
+export const addMusics = (musics) => ({
+    type: ActionTypes.LOAD_MUSICS,
+    payload: musics
+});
+
+
+export const deleteMusic = (id) => (dispatch) => {
+
+   
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'musics/' + id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(response => dispatch(deleteAMusic(id)))
+    .catch(error => { console.log('Delete user ', error.message);
+        alert('Your user could not be deleted\nError: '+ error.message); })
+} 
+
+export const deleteAMusic = (id) => ({
+    type: ActionTypes.DELETE_MUSIC,
+    payload:  id
+    
+});

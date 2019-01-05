@@ -56,6 +56,7 @@ class DBArticle extends Component {
     
   render() {
     const { classes } = this.props;
+    console.log(this.props)
     if (this.props.isLoading) {
         return(
             <div>
@@ -74,7 +75,7 @@ class DBArticle extends Component {
     else
     return (
         <div className={classes.root}>
-          <DBNav/>
+          <DBNav auth={this.props.auth}/>
           <main className={classes.content}>
           <Paper className={classes.frame} elevation={1}>
           <Button  className={classes.newArticleBtn}  variant="outlined" color="primary" to={`/Dashboard/NewArticle`} component={Link}>New</Button>

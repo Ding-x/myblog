@@ -15,6 +15,11 @@ export const Articles = (state = {
             var index = state.articles.findIndex(article=>article._id===action.payload)
             delete state.articles[index]
             return {...state, articles: state.articles};
+        case ActionTypes.EDIT_ARTICLE:
+            var index1 = state.articles.findIndex(article=>article._id===action.payload.id)
+            state.articles[index1].title=action.payload.title;
+            state.articles[index1].content=action.payload.content;
+            return {...state, articles: state.articles};
         case ActionTypes.ARTICLES_LOADING:
             return {...state, isLoading: true, errMess: null, articles: []}
 

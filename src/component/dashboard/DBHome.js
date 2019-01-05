@@ -7,6 +7,7 @@ import DBNav from './DBNav';
 const styles = theme => ({
   root: {
     display: 'flex',
+    background:'white'
   },
   content: {
     flexGrow: 1,
@@ -20,25 +21,33 @@ const styles = theme => ({
 
 });
 
+
+
 class DBHome extends React.Component {
+
+
 
   render() {
     const { classes } = this.props;
  
-    
+      
     return (
         <div className={classes.root}>
-          <DBNav/>
+          <DBNav auth={this.props.auth} />
           <main className={classes.content}>
             <div  />
             <Typography variant="h4" gutterBottom component="h2">
-              Home
+              {this.props.auth.admin? <p>Admin</p> : <p>User</p>}
+              
             </Typography>
           </main>
         </div>
 
     );
   }
+
+
+  
 }
 
 DBHome.propTypes = {

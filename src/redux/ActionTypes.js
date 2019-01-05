@@ -2,7 +2,8 @@ export const ARTICLES_LOADING = 'ARTICLES_LOADING';
 export const ARTICLES_FAILED = 'ARTICLES_FAILED';
 export const ADD_ARTICLES = 'ADD_ARTICLES';
 export const ADD_ARTICLE = 'ADD_ARTICLE';
-export const DELETE_ARTICLE = 'DELETE_ARTICLE'
+export const DELETE_ARTICLE = 'DELETE_ARTICLE';
+export const EDIT_ARTICLE = 'EDIT_ARTICLE'
 
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const ADD_COMMENTS = 'ADD_COMMENTS';
@@ -18,3 +19,18 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+
+
+
+export const ADD_USERS = 'ADD_USERS';
+export const ADD_USER = 'ADD_USER';
+export const DELETE_USER = 'DELETE_USER';
+export const USERS_FAILED = 'USERS_FAILED';
+export const CLEAR_USERS = 'CLEAR_USERS';
+
+
+export const LOAD_MUSICS = 'LOAD_MUSICS';
+export const ADD_MUSIC = 'ADD_MUSIC';
+export const POST_MUSIC = 'POST_MUSIC';
+export const MUSICS_FAILED = 'MUSICS_FAILED';
+export const DELETE_MUSIC = 'DELETE_MUSIC';

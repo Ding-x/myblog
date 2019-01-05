@@ -14,7 +14,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './NavItems';
+import { mainAdminListItems, mainUserListItems, secondaryListItems } from './NavItems';
 
 
 const drawerWidth = 240;
@@ -162,7 +162,8 @@ class DBNav extends React.Component {
               </IconButton>
             </div>
             <Divider />
-            <List>{mainListItems}</List>
+            {this.props.auth.admin? <List>{mainAdminListItems}</List> : <List>{mainUserListItems}</List>}
+            
             <Divider />
             <List>{secondaryListItems}</List>
           </Drawer>

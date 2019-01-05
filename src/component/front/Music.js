@@ -2,20 +2,17 @@ import React, { Component }  from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { baseUrl } from '../../shared/baseUrl';
-import MusicPlayer from 'react-responsive-music-player'
+import MusicPlayer from '../ultils/MusicPlayer'
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     paddingBottom:"5%",
-    // padding:'5% 15%',
   },
-
   musicplayer:{
     padding:'5% 0%',
-    //backgroundColor: '#81D8D0',
-    width:'1000px',
+    width:'1200px',
     margin:'100px auto',
     boxShadow:"0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
   },
@@ -33,24 +30,6 @@ const styles = theme => ({
   }
 });
 
-const playlist = [
-  {
-    url:  baseUrl+"/music/yuhao.mp3",
-    cover: baseUrl+"/images/yuhao.jpg",
-    title: 'Nice Rain',
-    artist: [
-      'Xiao'
-    ]
-  },
-  {
-    url:  baseUrl+"/music/light.mp3",
-    cover: baseUrl+"/images/light.jpg",
-    title: 'Light',
-    artist: [
-      'Xiao'
-    ]
-  },
-]
 
 class Music extends Component {
 
@@ -58,6 +37,23 @@ class Music extends Component {
   render() {
 
     const { classes } = this.props;
+    const playlist=[];
+
+    if(this.props.musics.musics.length>0){
+      this.props.musics.musics.map((music)=>{
+        const artist=[]
+        artist.push(music.author)
+        const newmusic={
+          title:music.title,
+          artist:artist,
+          url:baseUrl+music.musicpath,
+          cover:baseUrl+music.imagepath
+        }
+        playlist.push(newmusic)
+        return 0;
+        
+      })
+    }
 
     return (
       <div className={classes.root}>
@@ -67,7 +63,8 @@ class Music extends Component {
         </div>
 
         <div className={classes.musicplayer} >
-        <MusicPlayer  playlist={playlist} autoplay/>
+        {playlist.length>0? <MusicPlayer  playlist={playlist} autoplay/>: null  }
+  
           
         </div>
       </div>

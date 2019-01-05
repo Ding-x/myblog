@@ -119,7 +119,7 @@ class SingleArticle extends Component {
 
       this.setState({ 
         alertOpen: true,
-        dialogTitle:"Havent login?",
+        dialogTitle:"Haven't login?",
         dialogContent:"You need to login to comment on this article"
       });
     }

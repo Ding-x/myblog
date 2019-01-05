@@ -61,7 +61,14 @@ const styles =theme =>( {
     },
     subTitle:{
         color:"#777"
-    }
+    },
+    toTop:{
+        position:'fixed',
+        left:'40px',
+        bottom:'210px',
+        width:'100px',
+        fontWeight:'100'
+      }
   });
 
 
@@ -69,6 +76,9 @@ const styles =theme =>( {
 class Article extends Component {
 
     componentDidMount () {
+        window.scrollTo(0, 0)
+      }
+      goToTop= (event) => {
         window.scrollTo(0, 0)
       }
 
@@ -83,6 +93,8 @@ class Article extends Component {
       return 1;
    
   }
+
+
 
 this.props.articles.articles.sort(compare)
 
@@ -105,6 +117,7 @@ this.props.articles.articles.sort(compare)
     else
     return (
       <div className={classes.root}>
+      <Button className={classes.toTop} variant="outlined" onClick={this.goToTop}>Top</Button>
         <div className={classes.header}>
             <h1 className={classes.headerTitle}>Articles</h1>
             <h1 className={classes.subTitle}>筆記・書き物・Articles</h1>

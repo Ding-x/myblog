@@ -11,3 +11,9 @@
    
 }
 
+.welcome-box{
+    height: 400px;
+    width: 400px;
+    margin: 0 auto;
+    border-radius: 200px;
+}

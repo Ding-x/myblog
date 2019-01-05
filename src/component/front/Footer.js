@@ -26,7 +26,7 @@ class Footer extends Component {
         return (
           <div className={classes.root}>
           <div></div>
-          <div className={classes.footer}>Copyright &copy; Xiao's Blog 2018. Powered by <a href="http://xiaop.ca">Xiao Peng</a></div>
+          <div className={classes.footer}>Copyright &copy; Xiao's Blog {new Date().getFullYear()}. Powered by <a href="http://xiaop.ca">Xiao Peng</a></div>
           </div>
         );
       }

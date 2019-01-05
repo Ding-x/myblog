@@ -149,7 +149,7 @@ class DBSingleArticle extends Component {
 
     return (
         <div className={classes.root}>
-          <DBNav/>
+          <DBNav auth={this.props.auth}/>
           <main className={classes.mainFrame}>
               <Paper className={classes.frame} elevation={1}>
               <TextField className={classes.title} variant="outlined" name="Title" label="Title" value={this.state.title} onChange={this.handleTitleChange}/>
