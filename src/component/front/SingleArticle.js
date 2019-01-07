@@ -144,6 +144,7 @@ goToTop= (event) => {
 }
 
   render() {
+
     if (this.props.isLoading) {
       return(
           <div><Loading /></div>

@@ -9,13 +9,19 @@ const styles = theme => ({
       height:120,
       borderTop: '1px solid #e8e8e8',
 
+
     },
     footer:{
         height:120,
         fontSize:16,
         textAlign: 'center',
         paddingTop: 50,
+        [theme.breakpoints.down('sm')]: {
+          fontSize: 12,
+        },
     },
+    
+
   
   });
 
@@ -25,8 +31,7 @@ class Footer extends Component {
         const { classes } = this.props;    
         return (
           <div className={classes.root}>
-          <div></div>
-          <div className={classes.footer}>Copyright &copy; Xiao's Blog {new Date().getFullYear()}. Powered by <a href="http://xiaop.ca">Xiao Peng</a></div>
+            <div className={classes.footer}>Copyright &copy; Xiao's Blog {new Date().getFullYear()}. Powered by <a href="http://xiaop.ca">Xiao Peng</a></div>
           </div>
         );
       }

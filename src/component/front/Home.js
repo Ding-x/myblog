@@ -20,7 +20,7 @@ class Home extends Component {
       <StyleRoot>
       <div  className="home-root">
         <div  className="home-box" style={styles.bounce} >
-         <Image  src={link}  />
+         <Image className="welcome-box" src={link}  />
         </div>
       </div>
       </StyleRoot>

@@ -223,7 +223,11 @@ class MusicPlayer extends Component {
           </div>
         </div>
         <div className="cover-container">
-          <div className="cover" style={{ backgroundImage: `url(${activeMusic.cover})` }}></div>
+        {this.state.play?
+        <div className="Rotation  cover" style={{ backgroundImage: `url(${activeMusic.cover})` }}></div>
+        :
+        <div className=" cover" style={{ backgroundImage: `url(${activeMusic.cover})` }}></div>}
+          
         </div>
         <div className="list-container">         {this.props.playlist.map((music,index)=>{
           return(

@@ -24,7 +24,7 @@ class Header extends Component {
       render() {
         if(this.props.isDashboard<0)
           return (
-            <div >
+            <div className='header-root'>
                 <div className='nav-left'>
                 <Nav className='nav-bar'>
                   <NavItem >

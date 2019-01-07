@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { baseUrl } from '../../shared/baseUrl';
 import DBNav from './DBNav';
 
 import Button from '@material-ui/core/Button';
@@ -10,7 +11,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
-
 
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -22,6 +22,9 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Divider from '@material-ui/core/Divider';
+import { red } from '@material-ui/core/colors';
+
 
 
 function Transition(props) {
@@ -47,6 +50,15 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
+  uploadContainer:{
+    paddingTop:"40px",
+    paddingBottom:"20px",
+    paddingLeft:"10px"
+  },
+  alert:{
+    color:"red",
+    marginTop:"10px"
+  }
 
 });
 
@@ -61,6 +73,8 @@ class DBWork extends React.Component {
     musicServerPath:'',
     imageServerPath:'',
     open: false,
+    musicReady:false,
+    imageReady:false,
 }
 
 handleClickOpen = () => {
@@ -112,7 +126,7 @@ uploadMusic = () => {
     form.append('musicFile', data);
 
     const bearer = 'Bearer ' + localStorage.getItem('token');
-    const url = 'http://localhost:3000/musicUploadRouter';
+    const url = baseUrl+'musicUploadRouter';
 
     fetch(url, {
             method: 'POST',
@@ -120,14 +134,32 @@ uploadMusic = () => {
             headers: { 'Authorization': bearer },
           credentials: 'same-origin'
         })
-        .then(res => res.json())
-        .then(res => {
+        .then(response => {
+          if (response.ok) {
+              this.setState( { musicReady:true } )
+              return response;
+          }
+          else {
+              var error = new Error('Error ' + response.status + ': ' + response.statusText);
+              error.response = response;
+              throw error;
+          }
+          },
+          error => {
+            var errmess = new Error(error.message);
+            console.log(errmess)
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => {
             this.setState(
               {
-                musicServerPath:'music/'+res.filename
+                musicServerPath:'music/'+response.filename
               }
             )
         })
+        .catch(error => { console.log('Post music ', error.message);
+        alert('Your music could not be posted\nError: '+ error.message); })
 }
 
 
@@ -143,7 +175,7 @@ uploadImage = () => {
   form.append('imageFile', data);
 
   const bearer = 'Bearer ' + localStorage.getItem('token');
-  const url = 'http://localhost:3000/imageUploadRouter';
+  const url = baseUrl+'imageUploadRouter';
 
   fetch(url, {
           method: 'POST',
@@ -151,14 +183,32 @@ uploadImage = () => {
           headers: { 'Authorization': bearer },
         credentials: 'same-origin'
       })
-      .then(res => res.json())
-      .then(res => {
+      .then(response => {
+        if (response.ok) {
+          this.setState( { imageReady:true } )
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+      var errmess = new Error(error.message);
+      console.log(errmess)
+      throw errmess;
+  })
+      .then(response => response.json())
+      .then(response => {
           this.setState(
             {
-              imageServerPath:'images/cover/'+res.filename
+              imageServerPath:'images/cover/'+response.filename
             }
           )
       })
+      .catch(error => { console.log('Post image ', error.message);
+      alert('Your image could not be posted\nError: '+ error.message); })
 }
 
 
@@ -183,7 +233,7 @@ upload = () => {
 handleDeleteMusic = (music) => {    
 
   const bearer = 'Bearer ' + localStorage.getItem('token');
-  const imageurl = 'http://localhost:3000/imageUploadRouter/'+music.imagepath.split("/")[2];
+  const imageurl = baseUrl+'imageUploadRouter/'+music.imagepath.split("/")[2];
 
   fetch(imageurl, {
           method: 'DELETE',
@@ -195,7 +245,7 @@ handleDeleteMusic = (music) => {
         console.log(res)
       })
 
-    const musicurl = 'http://localhost:3000/musicUploadRouter/'+music.musicpath.split("/")[1];
+    const musicurl = baseUrl+'musicUploadRouter/'+music.musicpath.split("/")[1];
 
     fetch(musicurl, {
             method: 'DELETE',
@@ -234,8 +284,13 @@ render() {
             {"Upload New Music"}
           </DialogTitle>
           <DialogContent>
-            <div className='row'>
-            <TextField
+
+
+
+             <Grid container spacing={24}>
+
+              <Grid item xs={12} sm={6}>
+              <TextField
               id="outlined-name"
               label="Name"
               className={classes.textField}
@@ -244,8 +299,9 @@ render() {
               margin="normal"
               variant="outlined"
             />
-
-            <TextField
+              </Grid>
+              <Grid item xs={12} sm={6}>
+              <TextField
               id="outlined-name"
               label="Author"
               className={classes.textField}
@@ -254,31 +310,39 @@ render() {
               margin="normal"
               variant="outlined"
             />
-            </div>
+              </Grid>
+            </Grid>
+            <Divider />
+              <Grid container spacing={24} className={classes.uploadContainer}>
 
-              <div className='row'>
-                <label>Music file</label>
-                <div className='row-input'>
-                    <input type='file' accept='audio/mp3' onChange={this.changeMusicPath} />
-                    <Button variant="outlined" color="primary" onClick={this.uploadMusic}> Upload Music </Button>
-                </div>
-            </div>
-            <div className='row'>
-                <label>Image file</label>
-                <div className='row-input'>
-                    <input type='file' accept='image/*' onChange={this.changeImagePath} />
-                    <Button variant="outlined" color="primary" onClick={this.uploadImage}> Upload Image </Button>
-                </div>
-            </div>
+              <Grid item xs={16} sm={8}>
+                <input type='file' accept='audio/mp3' onChange={this.changeMusicPath} />
+                {this.state.musicReady? <p className={classes.alert}>Music uploaded!</p> : <p className={classes.alert}>Please upload a music file</p> }              
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <Button variant="outlined" color="primary" onClick={this.uploadMusic}> Upload Music </Button>
+              </Grid>
+              </Grid>
+              <Divider />
+
+              <Grid container spacing={24} className={classes.uploadContainer}>
+              <Grid item xs={16} sm={8}>
+              <input type='file' accept='image/*' onChange={this.changeImagePath} />
+              {this.state.imageReady? <p className={classes.alert}>Image uploaded!</p> : <p className={classes.alert}>Please upload a image file</p> }  
+              
+              </Grid>
+              <Grid item xs={8} sm={4}>
+              <Button variant="outlined" color="primary" onClick={this.uploadImage}> Upload Image </Button>
+              </Grid>    
+          </Grid>
+
+            
  
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Disagree
-            </Button>
-            <Button onClick={this.upload} color="primary">
-              Agree
-            </Button>
+            <Button onClick={this.handleClose} color="primary"> Disagree </Button>
+            {this.state.musicReady && this.state.imageReady? <Button onClick={this.upload} color="primary"> Agree  </Button>: <Button disabled color="primary"> Agree  </Button>}
+            
           </DialogActions>
         </Dialog>
 

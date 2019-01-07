@@ -14,20 +14,34 @@ const styles = theme => ({
     padding:'5% 0%',
     width:'1200px',
     margin:'100px auto',
-    boxShadow:"0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"
+    boxShadow:"0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+    [theme.breakpoints.down('sm')]: {
+      width:'300px',
+     
+    },
   },
   header:{
-      background:"#fafafa",
-      height:"450px",
-      padding:"6% 8%"
-  },
-  headerTitle:{
-      fontSize:"64px",
-      color:"#555"
-  },
-  subTitle:{
-      color:"#777"
-  }
+    background:"#fafafa",
+    height:"400px",
+    padding:"6% 8%",
+    [theme.breakpoints.down('sm')]: {
+        height:"300px",
+        padding:"26% 8%",
+      },
+},
+headerTitle:{
+    fontSize:"64px",
+    color:"#555",
+    [theme.breakpoints.down('sm')]: {
+        fontSize:"36px",
+      },
+},
+subTitle:{
+    color:"#777",
+    [theme.breakpoints.down('sm')]: {
+        fontSize:"24px",
+      },
+},
 });
 
 

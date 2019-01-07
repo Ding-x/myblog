@@ -1,7 +1,12 @@
+@import url(~normalize.css/normalize.css);
+@import url(~font-awesome/css/font-awesome.css);
+.header-root{
+    width: 100%;
+}
+    
 
 .nav-item{
     color: #fff;
-    font-weight: 400;
     margin-left: 2%;
     font-size: 24px;
     font-weight: 600;
@@ -41,3 +46,55 @@
     float: right;
     margin-right: 10%;
 }
+
+
+@media (max-width: 576px) {
+
+.header-root{
+    width: 100%;
+}
+    
+.nav-item{
+    font-size: 14px;
+    width: 45px;
+    font-weight: 200;
+    text-align: left
+}
+
+.nav-item:active{
+    color: rgb(156, 240, 231);
+}
+
+
+.nav-right{
+    padding-top: 25px;
+    padding-bottom: 20px;
+    height: 80px;
+    background: #81D8D0;
+    width: 30%;
+    float: right;
+    
+}
+
+.nav-left{
+    padding-top: 20px;
+    padding-left: 0;
+    width: 70%;
+}
+
+.login{
+    width: 50px;
+    margin-right: 5px;
+    font-size: 10px !important;
+}
+
+.logout{
+    width: 50px;
+    margin-right: 5px;
+    font-size: 10px !important;
+}
+
+}
+    
+    
+    

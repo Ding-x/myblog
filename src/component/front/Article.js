@@ -21,7 +21,10 @@ const styles =theme =>( {
         paddingTop: theme.spacing.unit * 2,
         paddingBottom: theme.spacing.unit * 2,
         maxWidth: '1000px',
-        margin:"80px auto 60px auto"
+        margin:"80px auto 60px auto",
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: '300px',
+          },
     },
     title:{
         margin:"20px auto 30px auto",
@@ -35,14 +38,18 @@ const styles =theme =>( {
         fontSize:'18px',
         color:'#222',
         lineHeight: '220%',
-        wordBreak:'break-all'
+        wordBreak:'break-all',
+        [theme.breakpoints.down('sm')]: {
+            fontSize:'12px',
+          },
     },
     actionBar:{
         margin:"20px auto 10px auto",
 
     },
     moreBtn:{
-       float:'right'
+       float:'right',
+       color:'#81D8D0'
     },
     info:{
         color:'#aaa',
@@ -52,22 +59,35 @@ const styles =theme =>( {
     },
     header:{
         background:"#fafafa",
-        height:"450px",
-        padding:"6% 8%"
+        height:"400px",
+        padding:"6% 8%",
+        [theme.breakpoints.down('sm')]: {
+            height:"300px",
+            padding:"26% 8%",
+          },
     },
     headerTitle:{
         fontSize:"64px",
-        color:"#555"
+        color:"#555",
+        [theme.breakpoints.down('sm')]: {
+            fontSize:"36px",
+          },
     },
     subTitle:{
-        color:"#777"
+        color:"#777",
+        [theme.breakpoints.down('sm')]: {
+            fontSize:"24px",
+          },
     },
     toTop:{
         position:'fixed',
         left:'40px',
         bottom:'210px',
         width:'100px',
-        fontWeight:'100'
+        fontWeight:'100',
+        [theme.breakpoints.down('sm')]: {
+            display:'none'
+          }, 
       }
   });
 
@@ -75,12 +95,32 @@ const styles =theme =>( {
  
 class Article extends Component {
 
+    constructor(props){
+        super(props);
+        this.state={
+            scrollTop:0
+        }
+    }
+    scrollHandler = this.handleScroll.bind(this);
+
     componentDidMount () {
         window.scrollTo(0, 0)
-      }
-      goToTop= (event) => {
-        window.scrollTo(0, 0)
-      }
+        window.addEventListener('scroll', this.scrollHandler);
+    }
+
+    goToTop= (event) => {
+    window.scrollTo(0, 0)
+    }
+
+
+    
+   handleScroll(event){
+       this.setState({
+           scrollTop:event.srcElement.scrollingElement.scrollTop
+       })
+   }
+
+      
 
   render() {
 
@@ -117,7 +157,8 @@ this.props.articles.articles.sort(compare)
     else
     return (
       <div className={classes.root}>
-      <Button className={classes.toTop} variant="outlined" onClick={this.goToTop}>Top</Button>
+      {this.state.scrollTop>600? <Button className={classes.toTop} variant="outlined" onClick={this.goToTop}>Top</Button>: null}
+      
         <div className={classes.header}>
             <h1 className={classes.headerTitle}>Articles</h1>
             <h1 className={classes.subTitle}>筆記・書き物・Articles</h1>
