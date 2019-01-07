@@ -31,14 +31,22 @@ const styles = theme => ({
       marginBottom:'50px',
       fontStyle:'bold',
       marginTop:'150px',
-      fontWeight:'400'
+      fontWeight:'400',
+      [theme.breakpoints.down('sm')]: {
+        fontSize:24,
+        marginTop:'100px',
+        marginBottom:'30px',
+      },
     },
     content:{
       fontSize:22,
       marginBottom:'50px',
       marginTop:'40px',
       lineHeight: '220%',
-      fontWeight:'300'
+      fontWeight:'300',
+      [theme.breakpoints.down('sm')]: {
+        fontSize:14,
+      },
     },
     info:{
       fontSize:18,
@@ -47,10 +55,17 @@ const styles = theme => ({
       lineHeight: '200%',
       color:'#aaa',
       fontStyle:'italic',
+      [theme.breakpoints.down('sm')]: {
+        fontSize:12,
+      },
     },
     comment:{
       marginTop:'50px',
-      fontSize:24
+      fontSize:24,
+      [theme.breakpoints.down('sm')]: {
+        fontSize:16,
+        marginTop:'30px',
+      },
     },
     margin: {
       margin: theme.spacing.unit,
@@ -65,20 +80,27 @@ const styles = theme => ({
       background:"#81D8D0",
       height:'50px',
       color:'#fff',
-      float:'left'
+      float:'left',
+
     },
     backToArticle:{
       position:'fixed',
       left:'40px',
       bottom:'150px',
-      width:'100px'
+      width:'100px',
+      [theme.breakpoints.down('sm')]: {
+        display:'none',
+      },
     },
     toTop:{
       position:'fixed',
       left:'40px',
       bottom:'210px',
       width:'100px',
-      fontWeight:'100'
+      fontWeight:'100',
+      [theme.breakpoints.down('sm')]: {
+        display:'none',
+      },
     }
   });
 
