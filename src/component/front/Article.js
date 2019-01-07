@@ -55,7 +55,10 @@ const styles =theme =>( {
         color:'#aaa',
         fontStyle:'italic',
         fontSize:14,
-        marginTop:8
+        marginTop:8,
+        [theme.breakpoints.down('sm')]: {
+            fontSize:10,
+          },
     },
     header:{
         background:"#fafafa",

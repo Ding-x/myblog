@@ -16,7 +16,7 @@
 .welcome-box{
     height: 400px;
     width: 400px;
-    margin: 0 auto;
+    margin:25px;
     border-radius: 200px;
 }
 
@@ -26,7 +26,7 @@
 @media (max-width: 576px) {
     .home-root{
         height: 500px;
-
+        padding-top: 100px;
     }
 
     .home-box{
