@@ -9,12 +9,14 @@ import About from './front/About';
 import SingleArticle from './front/SingleArticle';
 import Login from './front/Login';
 import Signup from './front/Signup';
+import Work from './front/Work';
 
 import DBHome from './dashboard/DBHome';
 import DBUser from './dashboard/DBUser';
 import DBArticle from './dashboard/DBArticle';
 import DBSingleArticle from './dashboard/DBSingleArticle';
 import DBNewArticle from './dashboard/DBNewArticle';
+import DBMusic from './dashboard/DBMusic';
 
 
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
@@ -23,7 +25,6 @@ import {postArticle,editArticle, deleteArticle, postComment,
         fetchArticles, fetchComments,deleteCommentsOfOneArticle, 
         loginUser, logoutUser, signupUser, fetchUsers, deleteUser,
         postMusic,fetchMusics,deleteMusic} from '../redux/ActionCreators';
-import DBWork from './dashboard/DBWork';
 
 
 
@@ -128,11 +129,13 @@ class Main extends Component {
             <Switch history={this.props.history}>
                 <Route path='/Home' component={Home} />
 
+                <Route exact path='/Work' component={()=><Work musics={this.props.musics}/> } />
+
                 <Route exact path='/Article' component={()=><Article articles={this.props.articles}/> }/>
 
                 <Route path='/Article/:id' component={articleWihID} />
                 
-                <Route exact path='/Works' component={()=><Music musics={this.props.musics}/> } />
+                <Route exact path='/Music' component={()=><Music musics={this.props.musics}/> } />
 
                 <Route exact path='/About' component={About} />
 
@@ -145,7 +148,7 @@ class Main extends Component {
               
                  /> } />
 
-                <Route exact path='/Dashboard/Works' component={()=><DBWork 
+                <Route exact path='/Dashboard/Music' component={()=><DBMusic 
                 musics={this.props.musics}
                 auth={this.props.auth}
                 postMusic={this.props.postMusic}

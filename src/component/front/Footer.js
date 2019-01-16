@@ -8,6 +8,7 @@ const styles = theme => ({
       backgroundColor: theme.palette.background.paper,
       height:120,
       borderTop: '1px solid #e8e8e8',
+      
 
 
     },

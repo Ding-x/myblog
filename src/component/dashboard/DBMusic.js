@@ -63,7 +63,7 @@ const styles = theme => ({
 
 
 
-class DBWork extends React.Component {
+class DBMusic extends React.Component {
   state = {
     name: '',
     author:'',
@@ -382,8 +382,8 @@ render() {
   
 }
 
-DBWork.propTypes = {
+DBMusic.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(DBWork);
+export default withStyles(styles)(DBMusic);

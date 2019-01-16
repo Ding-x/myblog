@@ -72,8 +72,8 @@ class Music extends Component {
     return (
       <div className={classes.root}>
        <div className={classes.header}>
-            <h1 className={classes.headerTitle}>Works</h1>
-            <h1 className={classes.subTitle}>作品・ワークス・Works</h1>
+            <h1 className={classes.headerTitle}>Musics</h1>
+            <h1 className={classes.subTitle}>音樂・ふえたけ・Musics</h1>
         </div>
 
         <div className={classes.musicplayer} >

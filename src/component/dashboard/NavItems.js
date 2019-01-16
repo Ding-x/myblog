@@ -30,7 +30,7 @@ export const mainAdminListItems = (
       </ListItemIcon>
       <ListItemText primary="Users" />
     </ListItem>
-    <ListItem button  to={`/Dashboard/Works`} component={Link}>
+    <ListItem button  to={`/Dashboard/Music`} component={Link}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
